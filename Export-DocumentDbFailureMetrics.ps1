@@ -267,8 +267,13 @@ function Convert-MetricResponseToRows {
                     $row[$dimension] = $dimensionValues[$dimension]
                 }
 
-                $row['Count'] = if ($null -ne $point.count) {
-                    [double]$point.count
+                $countProperty = $point.PSObject.Properties['count']
+
+                $row['Count'] = if (
+                    $null -ne $countProperty -and
+                    $null -ne $countProperty.Value
+                ) {
+                    [double]$countProperty.Value
                 }
                 else {
                     0
